@@ -16,7 +16,8 @@
     },
     data () {
       return {
-        posts: [
+        id: this.$route.params.id,
+        postsFrontEnd: [
           { id: 1,
             title: 'PWA Stats',
             content: 'A community-driven   list of stats and news  related to Progressive Web   Apps',
@@ -31,7 +32,9 @@
             title: 'So what’s  this GraphQL thing I keep  hearing about?',
             content: 'Why now is the perfect time   to learn what exactly this  GraphQL thing you keep   hearing about really is.',
             link: 'https://  medium.freecodecamp.com/  so-whats-this-graphql-thing-i-  keep-hearing-about-baf4d36c20c  f'
-          },
+          }
+        ],
+        postsMobile: [
           { id: 4,
             title: 'State of The   Mobile Gap Between Native and   Web',
             content: 'Clearly   PhoneGap, and Cordova are   still required today in the   mobile world, but when is it  really needed? Did the web   ever catch up?',
@@ -47,8 +50,29 @@
             content: 'The beautiful thing  about Vue is that it\'s  incredibly feature-rich.',
             link: 'https://css-tricks.com/  power-custom-directives-vue/'
           }
-        ]
+        ],
+        posts: []
       }
+    },
+    methods: {
+      loadPosts () {
+        if (this.id === 'front-end') {
+          this.posts = this.postsFrontEnd
+        } else {
+          this.posts = this.postsMobile
+        }
+      }
+    },
+    watch: {
+      '$route' (to, from) {
+        this.id = to.params.id
+        this.loadPosts()
+      }
+    },
+    created () {
+      this.loadPosts()
+      console.log(this.$route.query.page)
     }
+
   }
 </script>
